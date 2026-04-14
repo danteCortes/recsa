@@ -11,7 +11,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "C:\\Users\\dante.cortes\\Herd\\cleanArchitecture",
+            "url": "C:\\Users\\devcortes\\Herd\\cleanArchitecture",
             "options": {
                 "symlink": true
             }

@@ -6,8 +6,19 @@ const api = axios.create({
     withXSRFToken: true,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Accept': 'Application/JSON'
+        'Accept': 'application/json'
     }
 });
+
+api.interceptors.response.use(
+    response => response,
+    async error => {
+        if (error.response?.status === 419) {
+            await api.get('/sanctum/csrf-cookie')
+            return axios(error.config)
+        }
+        return Promise.reject(error)
+    }
+)
 
 export default api;

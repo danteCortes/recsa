@@ -2,9 +2,7 @@ import { User } from "@/domain/auth/entities/User";
 import { Credentials } from "@/domain/auth/entities/Credentials";
 import { AuthRepository } from "@/domain/auth/repositories/AuthRepository";
 import { Email } from "@/domain/auth/valueObjects/Email";
-import { ExpireAt } from "@/domain/auth/valueObjects/ExpireAt";
 import { Name } from "@/domain/auth/valueObjects/Name";
-import { Token } from "@/domain/auth/valueObjects/Token";
 import { UserId } from "@/domain/auth/valueObjects/UserId";
 import api from "@/infrastructure/http/AxiosSessionInstance";
 import { AxiosError } from "axios";
@@ -13,6 +11,7 @@ export class AxiosAuthRepository implements AuthRepository {
     
     public async login(credentials: Credentials): Promise<User>{
         try {
+            await api.get('/sanctum/csrf-cookie');
             const { data } = await api.post<{id: string; name: string; email: string;}>("/auth/login", {
                 email: credentials.email().value(),
                 password: credentials.password().value(),
